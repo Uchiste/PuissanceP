@@ -95,7 +95,10 @@ public class Window extends JFrame implements ActionListener{
 		play.setText(j1.getName());
 		display.add(play);
 		quitter = new JButton("Quitter");
-		quitter.addActionListener(this);
+		quitter.addActionListener(e -> {
+	         frame.dispose();
+	         new Accueil();
+	      });
 		display.add(quitter);
 		frame.add(display);
 		
@@ -107,36 +110,29 @@ public class Window extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource()==quitter) {
-			frame.setVisible(false);
-			Accueil a = new Accueil();
-			
-		}
-		else {
-			for (int i=0;i<10;i++) {
-				for (int j=0;j<10;j++) {
-					Button b=list.get(i).get(j);
-					if (e.getSource() == b.getButton()) {
-						Color color_playing=game.get_color_playing();
-						if (game.test_plays(i, j, color_playing) == 1) {
-							b.getButton().setBackground(color_playing);
-							game.play(i,j);
-						}
+		for (int i=0;i<10;i++) {
+			for (int j=0;j<10;j++) {
+				Button b=list.get(i).get(j);
+				if (e.getSource() == b.getButton()) {
+					Color color_playing=game.get_color_playing();
+					if (game.test_plays(i, j, color_playing) == 1) {
+						b.getButton().setBackground(color_playing);
+						game.play(i,j);
 					}
 				}
 			}
-			
-			String temp="Point Jaune : "+Integer.toString(game.get_pointsY());
-			jaune.setText(temp);
-			temp="Point Rouge : "+Integer.toString(game.get_pointsR());
-			rouge.setText(temp);
-			play.setBackground(game.get_color_playing());
-			play.setText(game.get_player_playing().getName());
-			if (game.check_end_game() == 0) {
-				//fin de game
-				System.out.println("FIN DE LA PARTIE");
-			}
 		}
+		
+		String temp="Point Jaune : "+Integer.toString(game.get_pointsY());
+		jaune.setText(temp);
+		temp="Point Rouge : "+Integer.toString(game.get_pointsR());
+		rouge.setText(temp);
+		play.setBackground(game.get_color_playing());
+		play.setText(game.get_player_playing().getName());
+		if (game.check_end_game() == 0) {
+			System.out.println("FIN DE LA PARTIE");
+		}
+	
 		
 		
 	}
